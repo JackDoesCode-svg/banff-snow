@@ -96,7 +96,9 @@ function statusText(result) {
 async function render({ force = false } = {}) {
   const status = document.getElementById("status");
   const button = document.getElementById("refresh");
+  const started = Date.now();
   button.disabled = true;
+  button.classList.add("spinning");          // CSS spins the icon
   status.textContent = "Loading the forecast…";
 
   try {
@@ -113,10 +115,15 @@ async function render({ force = false } = {}) {
     status.dataset.source = result.error ? "offline" : result.source;
   } catch (err) {
     console.error(err);
-    status.textContent = "Couldn't load the forecast. Check your connection and tap Refresh.";
+    status.textContent = "Couldn't load the forecast. Check your connection and tap ↻ to try again.";
     status.dataset.source = "offline";
   } finally {
-    button.disabled = false;
+    // Spin for at least 0.6 s so a tap always visibly does something.
+    const wait = Math.max(0, 600 - (Date.now() - started));
+    setTimeout(() => {
+      button.disabled = false;
+      button.classList.remove("spinning");
+    }, wait);
   }
 }
 
@@ -127,10 +134,18 @@ render();
 // The link to share is this page's own address (without any #… or ?…),
 // so it keeps working if the site moves to a new address.
 const shareUrl = location.origin + location.pathname;
-const shareMsg = document.getElementById("share-msg");
+
+// A small pop-up message that disappears after a few seconds.
+let toastTimer;
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.hidden = true; }, 3000);
+}
 
 document.getElementById("share").addEventListener("click", async () => {
-  shareMsg.textContent = "";
   const shareData = {
     title: "Banff Snow",
     text: "Powder scores and 10-day snow forecasts for Sunshine, Norquay and Lake Louise. On iPhone: open in Safari, tap Share, then Add to Home Screen.",
@@ -149,9 +164,9 @@ document.getElementById("share").addEventListener("click", async () => {
   // 2nd choice: copy the link so they can paste it anywhere
   try {
     await navigator.clipboard.writeText(shareUrl);
-    shareMsg.textContent = "Link copied. Paste it to a friend.";
+    showToast("Link copied. Paste it to a friend.");
   } catch (err) {
-    shareMsg.textContent = shareUrl; // last resort: show it so they can copy it by hand
+    showToast(shareUrl); // last resort: show it so they can copy it by hand
   }
 });
 

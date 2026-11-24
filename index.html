@@ -29,7 +29,22 @@
         <p class="eyebrow">Bow Valley · Alberta</p>
         <h1>Banff Snow</h1>
       </div>
-      <button id="refresh" type="button">Refresh</button>
+      <!-- Two icon buttons. aria-label is what VoiceOver reads aloud,
+           since there's no visible text. The icons are inline SVG drawings. -->
+      <div class="actions">
+        <button id="share" class="icon-btn" type="button" aria-label="Share Banff Snow" title="Share">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v12M7.5 7.5 12 3l4.5 4.5"/>
+            <path d="M8 11H6a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-2"/>
+          </svg>
+        </button>
+        <button id="refresh" class="icon-btn" type="button" aria-label="Refresh forecast" title="Refresh">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 12a8 8 0 1 1-2.35-5.65"/>
+            <path d="M20 4v5h-5"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <p id="status" class="status" role="status">Loading the forecast…</p>
   </header>
@@ -39,17 +54,16 @@
   </main>
 
   <footer class="foot">
-    <div class="share">
-      <button id="share" type="button">Share Banff Snow</button>
-      <p id="share-msg" class="share-msg" role="status"></p>
-      <!-- Shown only in the browser, not once installed (see app.js) -->
-      <p id="install-tip" class="install-tip" hidden>
-        Get it on your iPhone: open this page in Safari, tap Share, then <b>Add to Home Screen</b>.
-      </p>
-    </div>
+    <!-- Shown only in the browser, not once installed (see app.js) -->
+    <p id="install-tip" class="install-tip" hidden>
+      Get it on your iPhone: open this page in Safari, tap Share, then <b>Add to Home Screen</b>.
+    </p>
     <p>Forecasts are model estimates for each resort's base and summit, not resort measurements. Check the official report before you go.</p>
     <p><a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather data by Open-Meteo.com</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></p>
   </footer>
+
+  <!-- Small pop-up message, e.g. "Link copied" -->
+  <p id="toast" class="toast" role="status" hidden></p>
 
   <!-- Order matters: each file uses things defined in the ones above it. -->
   <script src="js/resorts.js"></script>

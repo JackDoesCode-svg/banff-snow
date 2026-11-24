@@ -75,14 +75,38 @@ a { color: var(--glacier); }
   margin: 0; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; opacity: .7;
 }
 h1 { font-size: 2.4rem; font-weight: 700; line-height: 1; letter-spacing: .01em; }
-#refresh {
-  font: 600 .95rem var(--body);
-  color: var(--band-ink); background: transparent;
-  border: 1.5px solid color-mix(in srgb, var(--band-ink) 40%, transparent);
-  border-radius: 999px; padding: 8px 16px; min-height: 44px; /* comfortable tap size */
-  cursor: pointer;
+/* Two round icon buttons, top right */
+.actions { display: flex; gap: 10px; flex: none; }
+.icon-btn {
+  width: 44px; height: 44px;           /* Apple's minimum comfortable tap size */
+  display: grid; place-items: center; padding: 0;
+  color: var(--band-ink);
+  background: color-mix(in srgb, var(--band-ink) 10%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--band-ink) 30%, transparent);
+  border-radius: 50%; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
-#refresh:disabled { opacity: .5; }
+.icon-btn:active { background: color-mix(in srgb, var(--band-ink) 22%, transparent); }
+.icon-btn svg {
+  width: 22px; height: 22px;
+  fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+/* The refresh icon spins while the forecast is loading */
+#refresh.spinning svg { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  #refresh.spinning svg { animation: none; opacity: .5; }
+}
+
+/* Pop-up message near the bottom of the screen */
+.toast {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(env(safe-area-inset-bottom) + 20px);
+  margin: 0; padding: 10px 18px; border-radius: 999px;
+  background: var(--band); color: var(--band-ink);
+  font-weight: 500; box-shadow: 0 6px 20px rgb(0 0 0 / .25);
+  max-width: calc(100% - 32px); text-align: center; z-index: 10;
+}
 .status {
   max-width: 1100px; margin: 10px auto 0; font-size: .85rem; opacity: .8;
 }
@@ -163,21 +187,7 @@ h1 { font-size: 2.4rem; font-weight: 700; line-height: 1; letter-spacing: .01em;
 .official { font-weight: 600; font-size: .9rem; text-decoration: none; padding: 6px 0; }
 .official:hover { text-decoration: underline; }
 
-/* ---------- Share ---------- */
-.share {
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  text-align: center; padding: 8px 0 20px; margin-bottom: 8px;
-  border-bottom: 1px solid var(--line);
-}
-#share {
-  font: 600 1rem var(--body);
-  color: #fff; background: var(--glacier);
-  border: 0; border-radius: 999px;
-  padding: 12px 28px; min-height: 48px; cursor: pointer;
-}
-@media (prefers-color-scheme: dark) { #share { color: var(--band); } }
-.share-msg { margin: 0; min-height: 1.2em; color: var(--ink); font-weight: 500; }
-.install-tip { margin: 0; max-width: 32ch; }
+.install-tip { color: var(--ink); font-weight: 500; }
 [hidden] { display: none !important; }
 
 /* ---------- Footer ---------- */
