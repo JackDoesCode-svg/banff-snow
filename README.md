@@ -42,7 +42,7 @@ Then open <http://localhost:8000> in your browser.
 
 1. Publish the folder with GitHub Pages (repository **Settings → Pages → Deploy from a branch → `main` / root**). You get an address like `https://<your-username>.github.io/banff-snow/`.
 2. Open that address in **Safari** on your iPhone.
-3. Tap **Share** (the square with the arrow) → **Add to Home Screen** → **Add**.
+3. Tap the three dots (•••) → **Share** → **Add to Home Screen** → **Add**.
 
 It now opens full-screen from its own icon.
 

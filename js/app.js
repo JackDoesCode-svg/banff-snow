@@ -148,7 +148,7 @@ function showToast(message) {
 document.getElementById("share").addEventListener("click", async () => {
   const shareData = {
     title: "Banff Snow",
-    text: "Powder scores and 10-day snow forecasts for Sunshine, Norquay and Lake Louise. On iPhone: open in Safari, tap Share, then Add to Home Screen.",
+    text: "Powder scores and 10-day snow forecasts for Sunshine, Norquay and Lake Louise. Get it on your home screen: open in Safari, tap the three dots (•••), tap Share, then Add to Home Screen.",
     url: shareUrl
   };
 
