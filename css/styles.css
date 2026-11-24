@@ -1,0 +1,172 @@
+/* styles.css — Banff Snow
+   Layout: a dark alpine header band, then one card per resort
+   (1 column on phones, up to 3 side by side on wide screens).
+   Colours are variables so dark mode only has to swap values. */
+
+:root {
+  --snow: #f2f5f7;        /* page background: cold off-white */
+  --card: #ffffff;
+  --ink: #102331;         /* main text: deep spruce navy */
+  --mute: #5a6e7c;        /* secondary text */
+  --line: #dbe3e8;
+  --glacier: #0e7a90;     /* accent: glacial-lake teal */
+  --band: #0f2a3a;        /* header band */
+  --band-ink: #eaf2f6;
+  /* powder levels (meaning, not decoration) */
+  --epic: #5b4bd6;
+  --good: #0e7a90;
+  --fair: #b7791f;
+  --low: #7d8c97;
+  --bar: #9ccbd8;
+  --display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --snow: #0b1720;
+    --card: #12232f;
+    --ink: #e5eef3;
+    --mute: #93a8b6;
+    --line: #22394a;
+    --glacier: #4fc3dc;
+    --band: #07121a;
+    --band-ink: #e5eef3;
+    --epic: #a197ff;
+    --good: #4fc3dc;
+    --fair: #f0b34a;
+    --low: #8b9ca8;
+    --bar: #2b6578;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--snow);
+  color: var(--ink);
+  font: 16px/1.45 var(--body);
+}
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; }
+a { color: var(--glacier); }
+:focus-visible { outline: 3px solid var(--glacier); outline-offset: 2px; }
+
+/* Side padding that also clears the iPhone notch in landscape */
+.top-inner, .status, .cards, .foot {
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+}
+
+/* ---------- Header band ---------- */
+.top {
+  background: var(--band);
+  color: var(--band-ink);
+  /* push content below the status bar / notch when installed */
+  padding-top: calc(env(safe-area-inset-top) + 14px);
+  padding-bottom: 14px;
+}
+.top-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+}
+.eyebrow {
+  margin: 0; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; opacity: .7;
+}
+h1 { font-size: 2.4rem; font-weight: 700; line-height: 1; letter-spacing: .01em; }
+#refresh {
+  font: 600 .95rem var(--body);
+  color: var(--band-ink); background: transparent;
+  border: 1.5px solid color-mix(in srgb, var(--band-ink) 40%, transparent);
+  border-radius: 999px; padding: 8px 16px; min-height: 44px; /* comfortable tap size */
+  cursor: pointer;
+}
+#refresh:disabled { opacity: .5; }
+.status {
+  max-width: 1100px; margin: 10px auto 0; font-size: .85rem; opacity: .8;
+}
+.status[data-source="sample"], .status[data-source="offline"] {
+  color: #ffd27a; opacity: 1;
+}
+
+/* ---------- Cards ---------- */
+.cards {
+  max-width: 1100px; margin: 18px auto 0;
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+}
+.card {
+  --level: var(--low);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--level);   /* powder level at a glance */
+  border-radius: 14px;
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 14px;
+  min-width: 0;
+}
+.level-epic { --level: var(--epic); }
+.level-good { --level: var(--good); }
+.level-fair { --level: var(--fair); }
+.level-low  { --level: var(--low); }
+
+.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.card h2 { font-size: 1.7rem; font-weight: 700; line-height: 1.05; }
+.elev { margin: 2px 0 0; color: var(--mute); font-size: .82rem; font-variant-numeric: tabular-nums; }
+.best {
+  flex: none; font: 600 .72rem var(--body); text-transform: uppercase; letter-spacing: .08em;
+  color: var(--card); background: var(--level); padding: 4px 9px; border-radius: 999px;
+}
+
+.verdict { display: flex; align-items: center; gap: 14px; }
+.score {
+  flex: none; width: 74px; height: 74px; border-radius: 50%;
+  border: 4px solid var(--level);
+  display: grid; place-content: center; text-align: center; line-height: 1;
+}
+.score b { font: 700 2.1rem var(--display); color: var(--level); }
+.score span { font-size: .7rem; color: var(--mute); }
+.verdict-text { margin: 0; font: 700 1.45rem var(--display); }
+.score-label { margin: 0; color: var(--mute); font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; }
+
+.past { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.past li { background: var(--snow); border-radius: 10px; padding: 8px 10px; }
+.past b { display: block; font: 700 1.7rem/1 var(--display); font-variant-numeric: tabular-nums; }
+.past span { font-size: .75rem; color: var(--mute); }
+
+.summary { margin: 0; font-size: .95rem; }
+
+.section-label {
+  font: 600 .75rem var(--body); text-transform: uppercase; letter-spacing: .08em; color: var(--mute);
+  margin-bottom: -8px;
+}
+
+/* ---------- Chart ---------- */
+.chart { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .bar { fill: var(--bar); }
+.chart .bar.big { fill: var(--glacier); }
+.chart .bar.today { fill: var(--level); }
+.chart text { fill: var(--mute); font-family: var(--body); font-size: 9px; font-variant-numeric: tabular-nums; }
+.chart .val { fill: var(--ink); font-weight: 600; font-size: 10px; }
+.chart .day { font-weight: 600; fill: var(--ink); }
+.chart .day.today { fill: var(--level); }
+
+/* ---------- Current conditions ---------- */
+.now { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+.now div { min-width: 0; }
+.now dt { font-size: .7rem; color: var(--mute); text-transform: uppercase; letter-spacing: .07em; }
+.now dd { margin: 0; font-weight: 500; font-variant-numeric: tabular-nums; }
+.now small { color: var(--mute); font-size: .7rem; }
+
+.official { font-weight: 600; font-size: .9rem; text-decoration: none; padding: 6px 0; }
+.official:hover { text-decoration: underline; }
+
+/* ---------- Footer ---------- */
+.foot {
+  max-width: 1100px; margin: 24px auto 0; color: var(--mute); font-size: .8rem;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 24px);
+}
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

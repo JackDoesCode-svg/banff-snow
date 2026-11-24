@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- viewport-fit=cover lets the app use the whole iPhone screen,
+       including behind the notch; CSS keeps content clear of it. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Banff Snow</title>
+  <meta name="description" content="Snowfall, powder score and 10-day forecast for Sunshine Village, Mt. Norquay and Lake Louise.">
+
+  <!-- Installable app ("Add to Home Screen") -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Banff Snow">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0f2a3a">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <div>
+        <p class="eyebrow">Bow Valley · Alberta</p>
+        <h1>Banff Snow</h1>
+      </div>
+      <button id="refresh" type="button">Refresh</button>
+    </div>
+    <p id="status" class="status" role="status">Loading the forecast…</p>
+  </header>
+
+  <main id="cards" class="cards">
+    <!-- app.js puts one card per resort here -->
+  </main>
+
+  <footer class="foot">
+    <p>Forecasts are model estimates for each resort's base and summit, not resort measurements. Check the official report before you go.</p>
+    <p><a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather data by Open-Meteo.com</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></p>
+  </footer>
+
+  <!-- Order matters: each file uses things defined in the ones above it. -->
+  <script src="js/resorts.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/snow.js"></script>
+  <script src="js/chart.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
