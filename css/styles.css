@@ -163,6 +163,23 @@ h1 { font-size: 2.4rem; font-weight: 700; line-height: 1; letter-spacing: .01em;
 .official { font-weight: 600; font-size: .9rem; text-decoration: none; padding: 6px 0; }
 .official:hover { text-decoration: underline; }
 
+/* ---------- Share ---------- */
+.share {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  text-align: center; padding: 8px 0 20px; margin-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+#share {
+  font: 600 1rem var(--body);
+  color: #fff; background: var(--glacier);
+  border: 0; border-radius: 999px;
+  padding: 12px 28px; min-height: 48px; cursor: pointer;
+}
+@media (prefers-color-scheme: dark) { #share { color: var(--band); } }
+.share-msg { margin: 0; min-height: 1.2em; color: var(--ink); font-weight: 500; }
+.install-tip { margin: 0; max-width: 32ch; }
+[hidden] { display: none !important; }
+
 /* ---------- Footer ---------- */
 .foot {
   max-width: 1100px; margin: 24px auto 0; color: var(--mute); font-size: .8rem;

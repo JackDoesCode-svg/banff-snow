@@ -123,6 +123,43 @@ async function render({ force = false } = {}) {
 document.getElementById("refresh").addEventListener("click", () => render({ force: true }));
 render();
 
+// ---------- Share ----------
+// The link to share is this page's own address (without any #… or ?…),
+// so it keeps working if the site moves to a new address.
+const shareUrl = location.origin + location.pathname;
+const shareMsg = document.getElementById("share-msg");
+
+document.getElementById("share").addEventListener("click", async () => {
+  shareMsg.textContent = "";
+  const shareData = {
+    title: "Banff Snow",
+    text: "Powder scores and 10-day snow forecasts for Sunshine, Norquay and Lake Louise. On iPhone: open in Safari, tap Share, then Add to Home Screen.",
+    url: shareUrl
+  };
+
+  // 1st choice: the phone's own share sheet (Messages, WhatsApp, AirDrop…)
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+      return;
+    } catch (err) {
+      if (err.name === "AbortError") return; // they closed the sheet: that's fine
+    }
+  }
+  // 2nd choice: copy the link so they can paste it anywhere
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+    shareMsg.textContent = "Link copied. Paste it to a friend.";
+  } catch (err) {
+    shareMsg.textContent = shareUrl; // last resort: show it so they can copy it by hand
+  }
+});
+
+// Show the install tip only when the page is open in a browser, not when
+// it's already running as the installed home-screen app.
+const installed = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+document.getElementById("install-tip").hidden = installed;
+
 // Register the service worker so the app opens offline and installs nicely.
 // It only works on https:// (or localhost), so we check first.
 if ("serviceWorker" in navigator && location.protocol !== "file:") {
