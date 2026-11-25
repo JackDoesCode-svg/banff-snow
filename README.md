@@ -4,11 +4,13 @@ A personal snow report for the three Banff ski resorts: **Sunshine Village**, **
 
 For each resort it shows:
 
-- a **powder score** (0–10) with an emoji verdict
-- snowfall in the past **24, 48 and 72 hours** at the summit
+- a **best day this week** pick across all three resorts
+- a **powder score** (0–10) shown as a 10-segment ring, with an emoji verdict
+- snowfall **overnight** (4 pm to 7 am, like resort reports) and in the **past 48 hours**
 - a short **daily summary** in plain words
 - a **10-day snowfall** bar chart
-- current summit and base temperature, wind, freezing level and modelled snow depth
+- current summit and base temperature, wind and freezing level
+- a **cm / in** switch (remembered on each phone)
 
 Weather data comes from [Open-Meteo](https://open-meteo.com/) (free for non-commercial use, CC BY 4.0, no API key).
 
@@ -50,8 +52,8 @@ It now opens full-screen from its own icon.
 
 | Part | Points | Rule |
 |---|---|---|
-| Fresh snow | up to 6 | last 24 h at the summit; 25 cm = full marks |
-| Recent snow | up to 2 | last 72 h; 40 cm = full marks |
+| Fresh snow | up to 6 | snow since lifts closed yesterday (4 pm); 25 cm = full marks |
+| Recent snow | up to 2 | last 48 h; 30 cm = full marks |
 | Cold | up to 1 | 0 °C = 0, −8 °C or colder = 1 (colder means lighter snow) |
 | Wind | down to −2 | gusts over 40 km/h start costing points; 70+ km/h = −2 |
 
@@ -59,8 +61,20 @@ It now opens full-screen from its own icon.
 
 Tweak the numbers in `powderScore()` in `js/snow.js`.
 
+## How the snow numbers are worked out
+
+1. **Three weather models, averaged:** Environment Canada's GEM (2.5 km detail for the first two days), Europe's ECMWF and the US GFS. Averaging is usually more reliable than any one model. GFS alone was much drier than the other two in testing.
+2. **Mid-mountain:** snow is forecast at each resort's mid-mountain height (`snowAt` in `js/resorts.js`), close to where resorts measure. Summit and base temperatures are worked out from it (0.65 °C cooler per 100 m up).
+3. **Snow ratio corrected for temperature:** Open-Meteo turns water into snow at a fixed 7:1. Cold Rockies snow is fluffier, so `snowRatio()` in `js/snow.js` uses the Kuchera method instead: about 12:1 at −2 °C, up to 18:1 when very cold, and down to 5:1 near freezing.
+
+Even so, models miss small local snow showers. In testing, none of the three models caught a 6 cm report at Sunshine. Treat numbers as a guide and check the official report.
+
+## Resort badges and logos
+
+Each card shows a round badge with the resort's initials. To use a real logo instead, put the image in `icons/resorts/` and set `logo` for that resort in `js/resorts.js` (e.g. `logo: "icons/resorts/sunshine.png"`). Resort logos are trademarks, so use them only with care, and ideally with permission.
+
 ## Things to know
 
-- **These are model forecasts, not resort measurements.** Model snow depth in particular can be far off the resort's reported base. Always check the official report link on each card.
+- **These are model forecasts, not resort measurements.** Always check the official report link on each card.
 - When you change any file, bump `VERSION` in `sw.js` (e.g. `banff-snow-v2`) so installed copies pick up the change.
 - Open-Meteo's free tier allows fewer than 10,000 calls a day. The app saves each answer for an hour, so normal use is a few dozen calls a day.

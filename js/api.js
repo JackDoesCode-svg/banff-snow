@@ -5,44 +5,37 @@
 // the app is free.
 
 const API_BASE = "https://api.open-meteo.com/v1/forecast";
-const CACHE_KEY = "banff-snow-forecast-v1";
+const CACHE_KEY = "banff-snow-forecast-v2";   // v2: new data shape (3 models)
 const CACHE_MINUTES = 60;
 
-// What we ask for. Names come straight from the Open-Meteo docs.
+// Three independent weather models. Averaging them is usually more accurate
+// than trusting any single one.
+//   gem_seamless  — Environment Canada (2.5 km detail for the first 2 days)
+//   ecmwf_ifs025  — the European model
+//   gfs_seamless  — the US model (the only one that gives freezing level)
+const MODELS = ["gem_seamless", "ecmwf_ifs025", "gfs_seamless"];
+
+// What we ask for, every hour. Names come straight from the Open-Meteo docs.
 const HOURLY_VARS = [
-  "snowfall",              // cm of snow in the preceding hour
-  "snow_depth",            // modelled snow on the ground, in METRES
+  "precipitation",         // mm of water (rain + melted snow), preceding hour
+  "snowfall",              // cm, but at a fixed 7:1 ratio — snow.js corrects it
   "temperature_2m",        // °C
   "wind_speed_10m",        // km/h
   "wind_gusts_10m",        // km/h, strongest gust in the preceding hour
   "freezing_level_height", // metres above sea level where it's 0 °C
   "weather_code"           // number code: 71/73/75 = snow, etc.
 ];
-const DAILY_VARS = [
-  "weather_code",
-  "temperature_2m_max",
-  "temperature_2m_min",
-  "snowfall_sum",          // cm for the whole day
-  "wind_gusts_10m_max"
-];
 
-// Build one URL for all resorts at both base and summit.
-// The order of the six points is: resort 1 base, resort 1 summit,
-// resort 2 base, ... — app.js relies on that order.
+// One request for all resorts, each at its mid-mountain elevation.
+// The answer is a list in the same order as RESORTS.
 function buildForecastUrl(resorts) {
-  const lats = [], lons = [], elevations = [];
-  for (const r of resorts) {
-    lats.push(r.lat, r.lat);
-    lons.push(r.lon, r.lon);
-    elevations.push(r.base, r.summit);
-  }
   const params = new URLSearchParams({
-    latitude: lats.join(","),
-    longitude: lons.join(","),
-    elevation: elevations.join(","),   // corrects the model to the real height
+    latitude: resorts.map(r => r.lat).join(","),
+    longitude: resorts.map(r => r.lon).join(","),
+    elevation: resorts.map(r => r.snowAt).join(","), // corrects the model to the real height
     hourly: HOURLY_VARS.join(","),
-    daily: DAILY_VARS.join(","),
-    past_days: "3",                    // so we can add up the last 72 hours
+    models: MODELS.join(","),
+    past_days: "2",                    // for overnight and past 48 hours
     forecast_days: "10",               // for the 10-day chart
     timezone: "America/Edmonton"       // all times in Banff local time
   });

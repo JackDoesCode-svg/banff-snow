@@ -38,6 +38,8 @@
             <path d="M8 11H6a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-2"/>
           </svg>
         </button>
+        <!-- cm / in switch: the text inside is set by app.js -->
+        <button id="units" class="icon-btn unit-btn" type="button" aria-label="Switch units">cm</button>
         <button id="refresh" class="icon-btn" type="button" aria-label="Refresh forecast" title="Refresh">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M20 12a8 8 0 1 1-2.35-5.65"/>
@@ -48,6 +50,9 @@
     </div>
     <p id="status" class="status" role="status">Loading the forecast…</p>
   </header>
+
+  <!-- "Best day this week" line, filled in by app.js -->
+  <section id="best" class="best-wrap" aria-live="polite"></section>
 
   <main id="cards" class="cards">
     <!-- app.js puts one card per resort here -->
