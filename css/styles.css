@@ -162,10 +162,12 @@ h1 { font-size: 2.4rem; font-weight: 700; line-height: 1; letter-spacing: .01em;
   background: var(--badge); color: #fff;
   font: 700 1.05rem var(--display); letter-spacing: .04em;
 }
-/* Logos come in all shapes: fit them inside a white circle */
+/* Resort logos are wide wordmarks: show them on a white rounded tile
+   (white in dark mode too, so the logos keep their real colours) */
 .badge-img {
-  width: 48px; height: 48px; padding: 5px;
-  object-fit: contain; background: #fff; border: 1px solid var(--line);
+  width: 84px; height: 56px; padding: 5px 7px;
+  border-radius: 12px; object-fit: contain;
+  background: #fff; border: 1px solid var(--line);
 }
 .card h2 { font-size: 1.7rem; font-weight: 700; line-height: 1.05; }
 .elev { margin: 2px 0 0; color: var(--mute); font-size: .82rem; font-variant-numeric: tabular-nums; }

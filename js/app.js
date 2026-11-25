@@ -79,7 +79,7 @@ function initialsBadge(resort) {
 }
 function badge(resort) {
   if (resort.logo) {
-    return `<img class="badge badge-img" src="${resort.logo}" alt="" width="48" height="48" data-resort="${resort.id}" onerror="badgeFallback(this)">`;
+    return `<img class="badge badge-img" src="${resort.logo}" alt="" width="84" height="56" data-resort="${resort.id}" onerror="badgeFallback(this)">`;
   }
   return initialsBadge(resort);
 }

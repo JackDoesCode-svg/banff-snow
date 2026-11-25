@@ -3,7 +3,7 @@
 //
 // When you change any app file, bump VERSION so phones fetch the new copy.
 
-const VERSION = "banff-snow-v8";
+const VERSION = "banff-snow-v9";
 const APP_FILES = [
   "./",
   "index.html",
@@ -17,7 +17,10 @@ const APP_FILES = [
   "data/sample.json",
   "icons/icon-180.png",
   "icons/icon-192.png",
-  "icons/icon-512.png"
+  "icons/icon-512.png",
+  "icons/resorts/sunshine.png",
+  "icons/resorts/norquay.png",
+  "icons/resorts/louise.png"
 ];
 
 // 1. Install: download and store every app file.
