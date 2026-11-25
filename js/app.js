@@ -71,11 +71,21 @@ function scoreRing(score) {
     </div>`;
 }
 
+// The resort's logo if its image file exists, otherwise a round badge
+// with its initials. If the image fails to load (file not added yet),
+// badgeFallback() swaps it for the initials badge.
+function initialsBadge(resort) {
+  return `<span class="badge" style="--badge:${resort.badge.color}" aria-hidden="true">${resort.badge.initials}</span>`;
+}
 function badge(resort) {
   if (resort.logo) {
-    return `<img class="badge badge-img" src="${resort.logo}" alt="" width="44" height="44">`;
+    return `<img class="badge badge-img" src="${resort.logo}" alt="" width="48" height="48" data-resort="${resort.id}" onerror="badgeFallback(this)">`;
   }
-  return `<span class="badge" style="--badge:${resort.badge.color}" aria-hidden="true">${resort.badge.initials}</span>`;
+  return initialsBadge(resort);
+}
+function badgeFallback(img) {
+  const resort = RESORTS.find(r => r.id === img.dataset.resort);
+  if (resort) img.outerHTML = initialsBadge(resort);
 }
 
 function cardHtml(s, isBest) {
@@ -90,7 +100,6 @@ function cardHtml(s, isBest) {
       ${badge(r)}
       <div class="card-title">
         <h2 id="name-${r.id}">${r.name}</h2>
-        <p class="elev">${fmtM(r.base)}–${fmtM(r.summit)} m · ${fmtM(r.summit - r.base)} m vertical</p>
       </div>
       ${isBest ? `<span class="best">Best today</span>` : ""}
     </header>
@@ -126,9 +135,9 @@ function cardHtml(s, isBest) {
 
 function bestDayHtml(best) {
   if (!best || best.cm < 3) {
-    return `<p class="best-day"><span class="best-kicker">This week</span> No powder in sight for the next 7 days. Enjoy the groomers.</p>`;
+    return `<p class="best-day"><span class="best-kicker">Day of the week</span> No powder in sight for the next 7 days. Enjoy the groomers.</p>`;
   }
-  return `<p class="best-day"><span class="best-kicker">Best day this week</span>
+  return `<p class="best-day"><span class="best-kicker">Day of the week</span>
     <b>${best.label}</b> at <b>${best.resort.name}</b> · about ${fmtSnow(best.cm)} by first chair</p>`;
 }
 

@@ -11,8 +11,8 @@
 //               close to where resorts measure their own snowfall
 //   report    : the resort's own conditions page (official lift/run info)
 //   badge     : initials and colour for the round badge beside the name
-//   logo      : optional path to an image (e.g. "icons/resorts/sunshine.png").
-//               If set, it's shown instead of the initials badge.
+//   logo      : path to the resort's logo image. If the file isn't there,
+//               the initials badge is shown instead.
 
 const RESORTS = [
   {
@@ -25,7 +25,7 @@ const RESORTS = [
     snowAt: 2195,
     report: "https://www.skibanff.com/conditions",
     badge: { initials: "SV", color: "#b8860b" },
-    logo: null
+    logo: "icons/resorts/sunshine.png"
   },
   {
     id: "norquay",
@@ -37,7 +37,7 @@ const RESORTS = [
     snowAt: 1880,
     report: "https://banffnorquay.com/winter/conditions/",
     badge: { initials: "NQ", color: "#c8432b" },
-    logo: null
+    logo: "icons/resorts/norquay.png"
   },
   {
     id: "louise",
@@ -49,6 +49,6 @@ const RESORTS = [
     snowAt: 2140,
     report: "https://www.skilouise.com/snow-conditions/",
     badge: { initials: "LL", color: "#1f6fb2" },
-    logo: null
+    logo: "icons/resorts/louise.png"
   }
 ];
