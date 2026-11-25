@@ -225,7 +225,7 @@ function showToast(message) {
 
 document.getElementById("share").addEventListener("click", async () => {
   const shareData = {
-    title: "Banff Snow",
+    title: "Banff Snow Report",
     text: "Powder scores and 10-day snow forecasts for Sunshine, Norquay and Lake Louise. Get it on your home screen: open in Safari, tap the three dots (•••), tap Share, then Add to Home Screen.",
     url: shareUrl
   };

@@ -75,6 +75,12 @@ a { color: var(--glacier); }
   margin: 0; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; opacity: .7;
 }
 h1 { font-size: 2.4rem; font-weight: 700; line-height: 1; letter-spacing: .01em; }
+.nowrap { white-space: nowrap; }
+/* Canadian-flag red maple leaf after the title */
+.leaf {
+  width: .72em; height: .72em; margin-left: .14em;
+  vertical-align: -0.02em; fill: #e0322a;
+}
 /* Two round icon buttons, top right */
 .actions { display: flex; gap: 10px; flex: none; }
 .icon-btn {

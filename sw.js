@@ -3,7 +3,7 @@
 //
 // When you change any app file, bump VERSION so phones fetch the new copy.
 
-const VERSION = "banff-snow-v9";
+const VERSION = "banff-snow-v10";
 const APP_FILES = [
   "./",
   "index.html",
